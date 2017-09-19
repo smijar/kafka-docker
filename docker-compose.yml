@@ -1,0 +1,22 @@
+zookeeper:
+    image: sm/kafka:latest
+    environment:
+        - PROGNAME=zookeeper
+    ports:
+        - "2181:2181"
+    volumes:
+        - ./config/zookeeper.properties:/opt/kafka/config/zookeeper.properties
+
+kafka:
+    image: sm/kafka:latest
+    environment:
+        - PROGNAME=kafka
+    ports:
+        - "9092:9092"
+    volumes:
+        - ./config/server.properties:/opt/kafka/config/server.properties
+    links:
+        - zookeeper
+
+    extra_hosts:
+        - "hostservices:172.20.123.1"
